@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/default_username/default_app_name",
+	"ImportPath": "github.com/pdxjohnny/numapp",
 	"GoVersion": "go1.5",
 	"Packages": [
 		"./..."
@@ -44,7 +44,7 @@
 		},
 		{
 			"ImportPath": "github.com/shurcooL/sanitized_anchor_name",
-			"Rev": "244f5ac324cb97e1987ef901a0081a77bfd8e845"
+			"Rev": "11a20b799bf22a02808c862eb6ca09f7fb38f84a"
 		},
 		{
 			"ImportPath": "github.com/spf13/cast",
@@ -52,7 +52,7 @@
 		},
 		{
 			"ImportPath": "github.com/spf13/cobra",
-			"Rev": "1ba88c48dd888c212df39b928bf6bb05c0efe83a"
+			"Rev": "e4993076d845b7127c760e2e57a4984c166c6c05"
 		},
 		{
 			"ImportPath": "github.com/spf13/jwalterweatherman",
@@ -65,6 +65,11 @@
 		{
 			"ImportPath": "github.com/spf13/viper",
 			"Rev": "3c0ff861e3d9906ecc4ebfb7e41557d44d3e277b"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2",
+			"Comment": "r2015.10.05",
+			"Rev": "f402e3a216db333ae6b3ba68b9152a34a0bc6984"
 		},
 		{
 			"ImportPath": "gopkg.in/yaml.v2",

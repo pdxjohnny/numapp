@@ -3,16 +3,17 @@ package commands
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/default_username/default_app_name/sample"
+	"github.com/pdxjohnny/numapp/get"
 )
 
+// Commands
 var Commands = []*cobra.Command{
 	&cobra.Command{
-		Use:   "sample",
-		Short: "Sample command",
+		Use:   "get",
+		Short: "Get number",
 		Run: func(cmd *cobra.Command, args []string) {
 			ConfigBindFlags(cmd)
-			sample.Run()
+			get.Run()
 		},
 	},
 }
