@@ -3,6 +3,9 @@
 KEYDIR="keys"
 
 DIR=$(pwd | sed 's#/# #g' | awk '{print $(NF)}')
+if [ "$#" == "1" ]; then
+  DIR=$1
+fi
 DIRPATH="${KEYDIR}/${DIR}"
 rm -rf ${DIRPATH}
 mkdir -pv ${DIRPATH}
