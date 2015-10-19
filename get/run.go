@@ -10,7 +10,7 @@ import (
 
 // Run is the function to be run for the cli
 func Run() {
-	data, err := Get(viper.GetString("num"))
+	data, err := Get(viper.GetString("id"))
 	if err != nil {
 		log.Println("ERROR geting number", err)
 		return
@@ -20,5 +20,5 @@ func Run() {
 		log.Println("ERROR dumping number", err)
 		return
 	}
-	fmt.Println(dump)
+	fmt.Println(string(dump))
 }

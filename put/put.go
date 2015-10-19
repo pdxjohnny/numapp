@@ -2,33 +2,54 @@ package put
 
 import (
 	"errors"
-	"log"
-	"os"
 
-	"gopkg.in/mgo.v2"
+	"github.com/pdxjohnny/numapp/db"
+	"gopkg.in/mgo.v2/bson"
 )
 
-// Put saves a document
+// Put tries to insert then tries to save
 func Put(doc interface{}) error {
-	uri := os.Getenv("MONGO_PORT_27017_TCP_ADDR")
-	log.Println("Connecting to", uri)
-	if uri == "" {
-		return errors.New("No mongo server to connect to")
+	err := Insert(doc)
+	if err == nil {
+		return nil
 	}
+	return Update(doc)
+}
 
-	session, err := mgo.Dial(uri)
+// Insert creates a document
+func Insert(doc interface{}) error {
+	session, err := db.Connect()
 	if err != nil {
 		return err
 	}
-	log.Println("Connected to", uri)
 	defer session.Close()
 
-	// Optional. Switch the session to a monotonic behavior.
-	session.SetMode(mgo.Monotonic, true)
-
-	session.SetSafe(&mgo.Safe{})
 	collection := session.DB("numapp").C("numbers")
 	err = collection.Insert(doc)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Update updates a document
+func Update(doc interface{}) error {
+	asMap := *(doc.(*map[string]interface{}))
+	_, ok := asMap["_id"]
+	if !ok {
+		return errors.New("Doc needs to have _id to be saved")
+	}
+	findDoc := bson.M{"_id": asMap["_id"]}
+
+	session, err := db.Connect()
+	if err != nil {
+		return err
+	}
+	defer session.Close()
+
+	collection := session.DB("numapp").C("numbers")
+	err = collection.Update(findDoc, doc)
 	if err != nil {
 		return err
 	}

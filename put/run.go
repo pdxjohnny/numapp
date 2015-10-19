@@ -1,16 +1,27 @@
 package put
 
+import (
+	"encoding/json"
+	"io"
+	"log"
+	"os"
+)
+
 // Run is the function to be run for the cli
 func Run() {
-	// data, err := Put(viper.GetString("num"))
-	// if err != nil {
-	// 	log.Println("ERROR puting number", err)
-	// 	return
-	// }
-	// dump, err := json.MarshalIndent(data, "", "    ")
-	// if err != nil {
-	// 	log.Println("ERROR dumping number", err)
-	// 	return
-	// }
-	// fmt.Println(dump)
+	dec := json.NewDecoder(os.Stdin)
+	for {
+		var doc map[string]interface{}
+		err := dec.Decode(&doc)
+		if err == io.EOF {
+			return
+		} else if err != nil {
+			log.Println(err)
+			return
+		}
+		err = Put(&doc)
+		if err != nil {
+			log.Println(err)
+		}
+	}
 }
