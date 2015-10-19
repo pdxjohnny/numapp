@@ -1,6 +1,7 @@
 package api
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/ant0ine/go-json-rest/rest"
@@ -18,6 +19,7 @@ func PutDoc(w rest.ResponseWriter, r *rest.Request) {
 	}
 	err = put.Put(doc)
 	if err != nil {
+		log.Println(err)
 		rest.Error(w, "Could not save", http.StatusInternalServerError)
 		return
 	}

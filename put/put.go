@@ -35,7 +35,15 @@ func Insert(doc interface{}) error {
 
 // Update updates a document
 func Update(doc interface{}) error {
-	asMap := *(doc.(*map[string]interface{}))
+	var asMap map[string]interface{}
+	switch value := doc.(type) {
+	case *map[string]interface{}:
+		asMap = *(value)
+	case map[string]interface{}:
+		asMap = value
+	default:
+		return errors.New("Must be a map")
+	}
 	_, ok := asMap["_id"]
 	if !ok {
 		return errors.New("Doc needs to have _id to be saved")
