@@ -1,0 +1,10 @@
+web:
+  build: .
+  ports:
+   - "12345:8080"
+  volumes:
+   - ./static:/app/static
+  links:
+   - mongo
+mongo:
+  image: mongo
