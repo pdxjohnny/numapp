@@ -20,7 +20,6 @@ func NewServeMux(static string) *http.ServeMux {
 // provided
 func ServeMux(mux *http.ServeMux, address, port, cert, key string) error {
 	listen := fmt.Sprintf("%s:%s", address, port)
-	fmt.Printf("%q %q\n", cert, key)
 	if cert == "" || key == "" {
 		fmt.Printf("About to listen on http://%s/\n", listen)
 		err := http.ListenAndServe(listen, mux)

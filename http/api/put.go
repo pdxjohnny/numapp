@@ -24,4 +24,5 @@ func PutDoc(w rest.ResponseWriter, r *rest.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
+	w.WriteJson(nil)
 }
