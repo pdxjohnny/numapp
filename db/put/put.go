@@ -2,6 +2,7 @@ package put
 
 import (
 	"errors"
+	"log"
 
 	"github.com/pdxjohnny/numapp/db/shared"
 	"github.com/pdxjohnny/numapp/variables"
@@ -10,7 +11,9 @@ import (
 
 // Put tries to insert then tries to save
 func Put(collectionName string, doc interface{}) error {
-	if shared.MongoConn == nil {
+	connection := shared.Connection()
+	if connection == nil {
+		log.Println("MongoConn", connection)
 		return errors.New("No connection to database server")
 	}
 	err := Insert(collectionName, doc)
@@ -22,10 +25,12 @@ func Put(collectionName string, doc interface{}) error {
 
 // Insert creates a document
 func Insert(collectionName string, doc interface{}) error {
-	if shared.MongoConn == nil {
+	connection := shared.Connection()
+	if connection == nil {
+		log.Println("MongoConn", connection)
 		return errors.New("No connection to database server")
 	}
-	collection := shared.MongoConn.DB(variables.DBName).C(collectionName)
+	collection := connection.DB(variables.DBName).C(collectionName)
 	err := collection.Insert(doc)
 	if err != nil {
 		return err
@@ -36,7 +41,9 @@ func Insert(collectionName string, doc interface{}) error {
 
 // Update updates a document
 func Update(collectionName string, doc interface{}) error {
-	if shared.MongoConn == nil {
+	connection := shared.Connection()
+	if connection == nil {
+		log.Println("MongoConn", connection)
 		return errors.New("No connection to database server")
 	}
 	var asMap map[string]interface{}
@@ -54,7 +61,7 @@ func Update(collectionName string, doc interface{}) error {
 	}
 	findDoc := bson.M{"_id": asMap["_id"]}
 
-	collection := shared.MongoConn.DB(variables.DBName).C(collectionName)
+	collection := connection.DB(variables.DBName).C(collectionName)
 	err := collection.Update(findDoc, doc)
 	if err != nil {
 		return err

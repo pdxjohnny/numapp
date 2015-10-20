@@ -1,6 +1,6 @@
 web:
   image: pdxjohnny/numapp
-  command: /app/run http
+  command: /app/run http --cert=
   ports:
    - "12345:8080"
   volumes:
@@ -9,7 +9,7 @@ web:
    - db
 db:
   image: pdxjohnny/numapp
-  command: /app/run db
+  command: /app/run db --cert=
   ports:
     # For TESTING
    - "42345:42345"
