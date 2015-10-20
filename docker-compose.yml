@@ -7,6 +7,8 @@ web:
    - ./static:/app/static
   links:
    - db
+  environment:
+    SERVICE_PROTOCOL: "http"
 db:
   image: pdxjohnny/numapp
   command: /app/run db --cert=

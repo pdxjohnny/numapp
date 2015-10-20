@@ -2,7 +2,6 @@ package shared
 
 import (
 	"log"
-	"os"
 
 	"github.com/pdxjohnny/numapp/variables"
 
@@ -21,7 +20,6 @@ func init() {
 // Connection makes MongoConn accessable
 func Connection() *mgo.Session {
 	if !connectionAttempted && MongoConn == nil {
-		log.Println("Connecting to mongo server...")
 		InitConnection()
 	}
 	return MongoConn
@@ -30,20 +28,18 @@ func Connection() *mgo.Session {
 // InitConnection establishes a conenction with mongodb
 func InitConnection() {
 	connectionAttempted = true
-	uri := os.Getenv(variables.DBAddress)
-	if uri == "" {
+	if variables.DBAddress == "" {
 		MongoConn = nil
 		log.Println("No mongo server to connect to")
 		return
 	}
 
-	connection, err := mgo.Dial(uri)
+	connection, err := mgo.Dial(variables.DBAddress)
 	if err != nil {
 		connection = nil
 		log.Println("Could not connect to mongo server")
 		return
 	}
-	log.Println("Connected to mongo server", connection)
 
 	// Optional. Switch the connection to a monotonic behavior.
 	connection.SetMode(mgo.Monotonic, true)

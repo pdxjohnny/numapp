@@ -5,6 +5,8 @@ import (
 	"net/http"
 
 	"github.com/ant0ine/go-json-rest/rest"
+
+	"github.com/pdxjohnny/numapp/variables"
 )
 
 // MakeHandler creates the api request handler
@@ -13,8 +15,8 @@ func MakeHandler() *http.Handler {
 	api.Use(rest.DefaultProdStack...)
 	router, err := rest.MakeRouter(
 		// For accounts, looking up and updating
-		rest.Get("/account/:id", GetAccount),
-		rest.Post("/account/:id", PostAccount),
+		rest.Get(variables.APIPathAccountServer, GetAccount),
+		rest.Post(variables.APIPathAccountServer, PostAccount),
 		// For user actions such as login
 		// rest.Post("/user/login/:username", PostUserLogin),
 		// rest.Post("/user/register/:username", PostUserRegister),
