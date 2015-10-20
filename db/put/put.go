@@ -3,29 +3,24 @@ package put
 import (
 	"errors"
 
-	"github.com/pdxjohnny/numapp/db"
+	"github.com/pdxjohnny/numapp/db/shared"
+	"github.com/pdxjohnny/numapp/variables"
 	"gopkg.in/mgo.v2/bson"
 )
 
 // Put tries to insert then tries to save
-func Put(doc interface{}) error {
-	err := Insert(doc)
+func Put(collectionName string, doc interface{}) error {
+	err := Insert(collectionName, doc)
 	if err == nil {
 		return nil
 	}
-	return Update(doc)
+	return Update(collectionName, doc)
 }
 
 // Insert creates a document
-func Insert(doc interface{}) error {
-	session, err := db.Connect()
-	if err != nil {
-		return err
-	}
-	defer session.Close()
-
-	collection := session.DB("numapp").C("numbers")
-	err = collection.Insert(doc)
+func Insert(collectionName string, doc interface{}) error {
+	collection := shared.MongoConn.DB(variables.DBName).C(collectionName)
+	err := collection.Insert(doc)
 	if err != nil {
 		return err
 	}
@@ -34,7 +29,7 @@ func Insert(doc interface{}) error {
 }
 
 // Update updates a document
-func Update(doc interface{}) error {
+func Update(collectionName string, doc interface{}) error {
 	var asMap map[string]interface{}
 	switch value := doc.(type) {
 	case *map[string]interface{}:
@@ -50,14 +45,8 @@ func Update(doc interface{}) error {
 	}
 	findDoc := bson.M{"_id": asMap["_id"]}
 
-	session, err := db.Connect()
-	if err != nil {
-		return err
-	}
-	defer session.Close()
-
-	collection := session.DB("numapp").C("numbers")
-	err = collection.Update(findDoc, doc)
+	collection := shared.MongoConn.DB(variables.DBName).C(collectionName)
+	err := collection.Update(findDoc, doc)
 	if err != nil {
 		return err
 	}

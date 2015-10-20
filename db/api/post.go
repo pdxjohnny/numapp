@@ -6,18 +6,19 @@ import (
 
 	"github.com/ant0ine/go-json-rest/rest"
 
-	"github.com/pdxjohnny/numapp/put"
+	"github.com/pdxjohnny/numapp/db/put"
 )
 
-// PutDoc uses put to retrive a document
-func PutDoc(w rest.ResponseWriter, r *rest.Request) {
-	var doc interface{}
+// PostDoc uses put to retrive a document
+func PostDoc(w rest.ResponseWriter, r *rest.Request) {
+	collection := r.PathParam("collection")
+	var doc map[string]interface{}
 	err := r.DecodeJsonPayload(&doc)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	err = put.Put(doc)
+	err = put.Put(collection, doc)
 	if err != nil {
 		log.Println(err)
 		rest.Error(w, "Could not save", http.StatusInternalServerError)

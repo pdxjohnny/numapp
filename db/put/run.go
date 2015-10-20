@@ -5,6 +5,8 @@ import (
 	"io"
 	"log"
 	"os"
+
+	"github.com/spf13/viper"
 )
 
 // Run is the function to be run for the cli
@@ -19,7 +21,7 @@ func Run() {
 			log.Println(err)
 			return
 		}
-		err = Put(&doc)
+		err = Put(viper.GetString("collection"), &doc)
 		if err != nil {
 			log.Println(err)
 		}

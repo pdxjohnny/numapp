@@ -10,7 +10,7 @@ import (
 
 // Run is the function to be run for the cli
 func Run() {
-	data, err := Get(viper.GetString("id"))
+	data, err := Get(viper.GetString("collection"), viper.GetString("id"))
 	if err != nil {
 		log.Println("ERROR geting number", err)
 		return

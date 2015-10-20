@@ -3,9 +3,10 @@ package commands
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/pdxjohnny/numapp/get"
+	"github.com/pdxjohnny/numapp/db"
+	"github.com/pdxjohnny/numapp/db/get"
+	"github.com/pdxjohnny/numapp/db/put"
 	"github.com/pdxjohnny/numapp/http"
-	"github.com/pdxjohnny/numapp/put"
 )
 
 // Commands
@@ -32,6 +33,14 @@ var Commands = []*cobra.Command{
 		Run: func(cmd *cobra.Command, args []string) {
 			ConfigBindFlags(cmd)
 			http.Run()
+		},
+	},
+	&cobra.Command{
+		Use:   "db",
+		Short: "Start the db service",
+		Run: func(cmd *cobra.Command, args []string) {
+			ConfigBindFlags(cmd)
+			db.Run()
 		},
 	},
 }
