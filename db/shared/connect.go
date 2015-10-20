@@ -4,6 +4,8 @@ import (
 	"log"
 	"os"
 
+	"github.com/pdxjohnny/numapp/variables"
+
 	"gopkg.in/mgo.v2"
 )
 
@@ -12,19 +14,19 @@ var MongoConn *mgo.Session
 
 // init establishes a conenction with mongodb
 func init() {
-	uri := os.Getenv("MONGO_PORT_27017_TCP_ADDR")
-	log.Println("Connecting to mongo server", uri)
+	uri := os.Getenv(variables.DBAddress)
 	if uri == "" {
+		MongoConn = nil
 		log.Println("No mongo server to connect to")
 		return
 	}
 
 	MongoConn, err := mgo.Dial(uri)
 	if err != nil {
+		MongoConn = nil
 		log.Println("Could not connect to mongo server")
 		return
 	}
-	log.Println("Connected to mongo server", uri)
 
 	// Optional. Switch the MongoConn to a monotonic behavior.
 	MongoConn.SetMode(mgo.Monotonic, true)

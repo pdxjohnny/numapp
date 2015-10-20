@@ -1,6 +1,8 @@
 package get
 
 import (
+	"errors"
+
 	"github.com/pdxjohnny/numapp/db/shared"
 	"github.com/pdxjohnny/numapp/variables"
 
@@ -9,6 +11,9 @@ import (
 
 // Get reteives a record given the id
 func Get(collectionName, id string) (*map[string]interface{}, error) {
+	if shared.MongoConn == nil {
+		return nil, errors.New("No connection to database server")
+	}
 	var result map[string]interface{}
 	collection := shared.MongoConn.DB(variables.DBName).C(collectionName)
 	err := collection.Find(bson.M{"_id": id}).One(&result)

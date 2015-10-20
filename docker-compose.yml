@@ -1,9 +1,18 @@
 web:
-  build: .
+  image: pdxjohnny/numapp
+  command: /app/run http
   ports:
    - "12345:8080"
   volumes:
    - ./static:/app/static
+  links:
+   - db
+db:
+  image: pdxjohnny/numapp
+  command: /app/run db
+  ports:
+    # For TESTING
+   - "42345:42345"
   links:
    - mongo
 mongo:

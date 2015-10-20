@@ -14,5 +14,7 @@ func GetDoc(w rest.ResponseWriter, r *rest.Request) {
 	if err != nil {
 		rest.Error(w, "Not Found", 404)
 	}
-	w.WriteJson(doc)
+	if doc != nil {
+		w.WriteJson(doc)
+	}
 }

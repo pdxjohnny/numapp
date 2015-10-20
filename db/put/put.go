@@ -10,6 +10,9 @@ import (
 
 // Put tries to insert then tries to save
 func Put(collectionName string, doc interface{}) error {
+	if shared.MongoConn == nil {
+		return errors.New("No connection to database server")
+	}
 	err := Insert(collectionName, doc)
 	if err == nil {
 		return nil
@@ -19,6 +22,9 @@ func Put(collectionName string, doc interface{}) error {
 
 // Insert creates a document
 func Insert(collectionName string, doc interface{}) error {
+	if shared.MongoConn == nil {
+		return errors.New("No connection to database server")
+	}
 	collection := shared.MongoConn.DB(variables.DBName).C(collectionName)
 	err := collection.Insert(doc)
 	if err != nil {
@@ -30,6 +36,9 @@ func Insert(collectionName string, doc interface{}) error {
 
 // Update updates a document
 func Update(collectionName string, doc interface{}) error {
+	if shared.MongoConn == nil {
+		return errors.New("No connection to database server")
+	}
 	var asMap map[string]interface{}
 	switch value := doc.(type) {
 	case *map[string]interface{}:
