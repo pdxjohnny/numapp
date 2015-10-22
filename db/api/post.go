@@ -7,6 +7,7 @@ import (
 	"github.com/ant0ine/go-json-rest/rest"
 
 	"github.com/pdxjohnny/numapp/db/put"
+	"github.com/pdxjohnny/numapp/variables"
 )
 
 // PostDoc uses put to retrive a document
@@ -25,5 +26,5 @@ func PostDoc(w rest.ResponseWriter, r *rest.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
-	w.WriteJson(nil)
+	w.(http.ResponseWriter).Write(variables.BlankResponse)
 }

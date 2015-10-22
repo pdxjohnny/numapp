@@ -1,25 +1,26 @@
 package api
 
 import (
-	"log"
+	"net/http"
 
 	"github.com/ant0ine/go-json-rest/rest"
 
 	"github.com/pdxjohnny/numapp/db/get"
+	"github.com/pdxjohnny/numapp/variables"
 )
 
 // GetDoc uses get to retrive a document
 func GetDoc(w rest.ResponseWriter, r *rest.Request) {
-	log.Println("Geting id param")
 	id := r.PathParam("id")
-	log.Println("Geting collection param")
 	collection := r.PathParam("collection")
-	log.Println("Geting", id, "from", collection)
 	doc, err := get.Get(collection, id)
 	if err != nil {
 		rest.Error(w, "Not Found", 404)
 	}
+	w.WriteHeader(http.StatusOK)
 	if doc != nil {
 		w.WriteJson(doc)
+	} else {
+		w.(http.ResponseWriter).Write(variables.BlankResponse)
 	}
 }

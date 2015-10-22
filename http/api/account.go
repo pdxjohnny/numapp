@@ -1,7 +1,6 @@
 package api
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/ant0ine/go-json-rest/rest"
@@ -19,23 +18,29 @@ func GetAccount(w rest.ResponseWriter, r *rest.Request) {
 	}
 	if doc != nil {
 		w.WriteJson(doc)
+	} else {
+		w.(http.ResponseWriter).Write(variables.BlankResponse)
 	}
 }
 
 // PostAccount uses get to retrive a document
 func PostAccount(w rest.ResponseWriter, r *rest.Request) {
 	var doc map[string]interface{}
+	id := r.PathParam("id")
 	err := r.DecodeJsonPayload(&doc)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	err = api.SaveAccount(variables.ServiceDBURL, doc)
+	savedDoc, err := api.SaveAccount(variables.ServiceDBURL, id, doc)
 	if err != nil {
-		log.Println(err)
-		rest.Error(w, "Could not save", http.StatusInternalServerError)
+		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.WriteHeader(http.StatusOK)
-	w.WriteJson(nil)
+	if savedDoc != nil {
+		w.WriteJson(savedDoc)
+	} else {
+		w.(http.ResponseWriter).Write(variables.BlankResponse)
+	}
 }

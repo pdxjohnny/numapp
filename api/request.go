@@ -7,6 +7,22 @@ import (
 	"net/http"
 )
 
+// GenericRequest makes a request and wraps it in some error handling
+func GenericRequest(host, path string, data interface{}) (*map[string]interface{}, error) {
+	var result map[string]interface{}
+	if host == "" {
+		return nil, errors.New("Host is blank")
+	}
+	host += path
+	resp, err := RESTRequest(host, data, &result)
+	if err != nil {
+		return nil, err
+	} else if resp.StatusCode != 200 {
+		return nil, errors.New("Status: " + resp.Status)
+	}
+	return &result, nil
+}
+
 // RESTRequest makes a rest request to a url and posts data as json
 func RESTRequest(url string, data interface{}, result interface{}) (*http.Response, error) {
 	var request *http.Request
