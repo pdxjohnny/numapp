@@ -72,11 +72,6 @@
 			"Rev": "3c0ff861e3d9906ecc4ebfb7e41557d44d3e277b"
 		},
 		{
-			"ImportPath": "gopkg.in/jmcvetta/napping.v3",
-			"Comment": "v3.0.1",
-			"Rev": "f48aadd369a55d6436a5e99ca70419dfea62df9b"
-		},
-		{
 			"ImportPath": "gopkg.in/mgo.v2",
 			"Comment": "r2015.10.05",
 			"Rev": "f402e3a216db333ae6b3ba68b9152a34a0bc6984"

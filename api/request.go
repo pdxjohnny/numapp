@@ -38,9 +38,14 @@ func RESTRequest(url string, data interface{}, result interface{}) (*http.Respon
 	defer resp.Body.Close()
 
 	// Make sure there is data to encode
-	if resp.Header["Content-Length"][0] == "0" {
+	if result == nil {
 		return resp, nil
-	} else if resp.Header["Content-Type"][0] != "application/json" {
+	}
+	if len(resp.Header["Content-Length"]) > 1 &&
+		resp.Header["Content-Length"][0] == "0" {
+		return resp, nil
+	} else if len(resp.Header["Content-Type"]) > 1 &&
+		resp.Header["Content-Type"][0] != "application/json" {
 		return resp, errors.New("Response was not json: " + resp.Header["Content-Type"][0])
 	}
 	decoder := json.NewDecoder(resp.Body)

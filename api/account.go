@@ -4,8 +4,6 @@ import (
 	"errors"
 	"strings"
 
-	"gopkg.in/jmcvetta/napping.v3"
-
 	"github.com/pdxjohnny/numapp/variables"
 )
 
@@ -17,11 +15,11 @@ func GetAccount(host string, id string) (*map[string]interface{}, error) {
 	}
 	host += variables.APIPathAccount
 	url := strings.Replace(host, ":id", id, 1)
-	resp, err := napping.Get(url, nil, &result, nil)
+	resp, err := RESTRequest(url, nil, &result)
 	if err != nil {
 		return nil, err
-	} else if resp.Status() != 200 {
-		return nil, errors.New("Status: " + string(resp.Status()))
+	} else if resp.StatusCode != 200 {
+		return nil, errors.New("Status: " + resp.Status)
 	}
 	return &result, nil
 }
