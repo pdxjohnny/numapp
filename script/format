@@ -1,3 +1,5 @@
 #!/bin/bash
 
 find ./ -type f -name "*.go" -exec gofmt -w {} \;
+find ./ -path ./static/bower_components -prune -o \
+  -name "*.js" -exec js-beautify -rjn -s 2 {} \;
