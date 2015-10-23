@@ -5,6 +5,10 @@ const (
 	APIPathAccountServer = "/account/:id"
 	// APIPathAccount is the path to the
 	APIPathAccount = "/api" + APIPathAccountServer
+	// APIPathUserSettingsServer is the path to a users settings
+	APIPathUserSettingsServer = "/user/settings/:id"
+	// APIPathUserSettings is the path to a users settings
+	APIPathUserSettings = "/api" + APIPathUserSettingsServer
 )
 
 var (

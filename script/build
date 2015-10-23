@@ -47,7 +47,7 @@ docker run --rm -v `pwd`:/go/src/github.com/${GITHUB_USERNAME}/${PRODUCT_NAME} "
 
 # Build the docker image
 if [[ -z "$SKIP_IMAGE" ]]; then
-  docker build -t "${GITHUB_USERNAME}/${PRODUCT_NAME}" .
+  docker build -t "${GITHUB_USERNAME}/${PRODUCT_NAME}:dev" .
   echo "Built ${GITHUB_USERNAME}/${PRODUCT_NAME}"
   echo "docker run --rm -ti ${GITHUB_USERNAME}/${PRODUCT_NAME}"
 fi
