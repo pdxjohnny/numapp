@@ -11,14 +11,14 @@ import (
 func GenericRequest(host, path string, data interface{}) (*map[string]interface{}, error) {
 	var result map[string]interface{}
 	if host == "" {
-		return nil, errors.New("Host is blank")
+		return nil, errors.New("500 No host given")
 	}
 	host += path
 	resp, err := RESTRequest(host, data, &result)
 	if err != nil {
 		return nil, err
 	} else if resp.StatusCode != 200 {
-		return nil, errors.New("Status: " + resp.Status)
+		return nil, errors.New(resp.Status)
 	}
 	return &result, nil
 }

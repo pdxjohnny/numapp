@@ -16,11 +16,12 @@ func GetDoc(w rest.ResponseWriter, r *rest.Request) {
 	doc, err := get.Get(collection, id)
 	if err != nil {
 		rest.Error(w, "Not Found", 404)
+		return
 	}
 	w.WriteHeader(http.StatusOK)
-	if doc != nil {
-		w.WriteJson(doc)
-	} else {
+	if doc == nil {
 		w.(http.ResponseWriter).Write(variables.BlankResponse)
+		return
 	}
+	w.WriteJson(doc)
 }

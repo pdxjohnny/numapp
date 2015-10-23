@@ -14,33 +14,34 @@ func GetAccount(w rest.ResponseWriter, r *rest.Request) {
 	id := r.PathParam("id")
 	doc, err := api.GetAccount(variables.ServiceDBURL, id)
 	if err != nil {
-		rest.Error(w, err.Error(), 404)
+		rest.Error(w, err.Error(), http.StatusNotFound)
+		return
 	}
-	if doc != nil {
-		w.WriteJson(doc)
-	} else {
+	if doc == nil {
 		w.(http.ResponseWriter).Write(variables.BlankResponse)
+		return
 	}
+	w.WriteJson(doc)
 }
 
 // PostAccount uses get to retrive a document
 func PostAccount(w rest.ResponseWriter, r *rest.Request) {
-	var doc map[string]interface{}
+	var saveDoc map[string]interface{}
 	id := r.PathParam("id")
-	err := r.DecodeJsonPayload(&doc)
+	err := r.DecodeJsonPayload(&saveDoc)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	savedDoc, err := api.SaveAccount(variables.ServiceDBURL, id, doc)
+	doc, err := api.SaveAccount(variables.ServiceDBURL, id, saveDoc)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.WriteHeader(http.StatusOK)
-	if savedDoc != nil {
-		w.WriteJson(savedDoc)
-	} else {
+	if doc == nil {
 		w.(http.ResponseWriter).Write(variables.BlankResponse)
+		return
 	}
+	w.WriteJson(doc)
 }

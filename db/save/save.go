@@ -1,4 +1,4 @@
-package put
+package save
 
 import (
 	"errors"
@@ -9,8 +9,8 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-// Put tries to insert then tries to save
-func Put(collectionName string, doc interface{}) error {
+// Save tries to insert then tries to save
+func Save(collectionName string, doc interface{}) error {
 	connection := shared.Connection()
 	if connection == nil {
 		log.Println("MongoConn", connection)

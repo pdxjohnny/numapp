@@ -1,4 +1,4 @@
-package put
+package save
 
 import (
 	"encoding/json"
@@ -21,7 +21,7 @@ func Run() {
 			log.Println(err)
 			return
 		}
-		err = Put(viper.GetString("collection"), &doc)
+		err = Save(viper.GetString("collection"), &doc)
 		if err != nil {
 			log.Println(err)
 		}

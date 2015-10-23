@@ -12,7 +12,7 @@ var ConfigOptions = map[string]interface{}{
 			"help":  "The id's doc to return",
 		},
 	},
-	"put": map[string]interface{}{
+	"save": map[string]interface{}{
 		"collection": map[string]interface{}{
 			"value": "",
 			"help":  "The collection to put in",

@@ -5,7 +5,7 @@ import (
 
 	"github.com/pdxjohnny/numapp/db"
 	"github.com/pdxjohnny/numapp/db/get"
-	"github.com/pdxjohnny/numapp/db/put"
+	"github.com/pdxjohnny/numapp/db/save"
 	"github.com/pdxjohnny/numapp/http"
 )
 
@@ -20,11 +20,11 @@ var Commands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:   "put",
-		Short: "Put a doc in the database",
+		Use:   "save",
+		Short: "Save a doc in the database",
 		Run: func(cmd *cobra.Command, args []string) {
 			ConfigBindFlags(cmd)
-			put.Run()
+			save.Run()
 		},
 	},
 	&cobra.Command{
