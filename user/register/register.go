@@ -2,6 +2,8 @@ package register
 
 import (
 	"errors"
+	"log"
+	"strconv"
 
 	"golang.org/x/crypto/bcrypt"
 
@@ -12,21 +14,18 @@ import (
 
 // Register takes a doc and attempts to create a new user
 func Register(registerDoc map[string]interface{}) error {
-	id, ok := registerDoc["username"].(string)
-	if ok != true {
-		return errors.New("Need username to register")
+	// Make sure we have all the properties we need
+	err := checkPropsExist(registerDoc)
+	if err != nil {
+		return err
 	}
-	passwordString, ok := registerDoc["password"].(string)
-	if ok != true {
-		return errors.New("Need password to register")
-	}
-	password := []byte(passwordString)
-	reCAPTCHA, ok := registerDoc["g-recaptcha-response"].(string)
-	if ok != true {
-		return errors.New("Need g-recaptcha-response to register")
-	}
+	// Get the properties we need
+	id := registerDoc["username"].(string)
+	password := registerDoc["password"].(string)
+	reCAPTCHA := registerDoc["g-recaptcha-response"].(string)
+	// Make sure the user does not exist already
 	doc, err := api.GetUser(variables.ServiceDBURL, id)
-	if err != nil || doc != nil {
+	if doc != nil {
 		return errors.New("Username is already taken")
 	}
 	// Verify with google reCAPTCHA
@@ -48,6 +47,31 @@ func Register(registerDoc map[string]interface{}) error {
 	_, err = api.SaveUser(variables.ServiceDBURL, id, registerDoc)
 	if err != nil {
 		return err
+	}
+	log.Println("User registered", registerDoc)
+	return nil
+}
+
+// checkPropsExist makes sure all the properties that need to exist do
+// before attempting to register
+func checkPropsExist(registerDoc map[string]interface{}) error {
+	id, ok := registerDoc["username"].(string)
+	if ok != true {
+		return errors.New("Need username to register")
+	} else if len(id) < variables.ShortestUsername {
+		// FIXME: Make concatination constant
+		return errors.New("Username must be at least " + strconv.Itoa(variables.ShortestUsername))
+	}
+	password, ok := registerDoc["password"].(string)
+	if ok != true {
+		return errors.New("Need password to register")
+	} else if len(password) < variables.ShortestPassword {
+		// FIXME: Make concatination constant
+		return errors.New("Password must be at least " + strconv.Itoa(variables.ShortestPassword))
+	}
+	_, ok = registerDoc["g-recaptcha-response"].(string)
+	if ok != true {
+		return errors.New("Need g-recaptcha-response to register")
 	}
 	return nil
 }

@@ -17,6 +17,10 @@ const (
 	BcryptLowestTime = time.Duration(1000 * time.Millisecond)
 	// TokenLength is the length of an auth token
 	TokenLength = 20
+	// ShortestUsername is the shortest allowed length for a username
+	ShortestUsername = 1
+	// ShortestPassword is the shortest allowed length for a password
+	ShortestPassword = 6
 )
 
 var (

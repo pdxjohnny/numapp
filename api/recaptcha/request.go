@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 	"net/url"
 )
@@ -26,6 +27,10 @@ func XURLRequest(urlPath string, data map[string]string, result interface{}) err
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	resp, err := client.Do(req)
+	if err != nil {
+		log.Println("XURLRequest error", err)
+		return err
+	}
 	if result == nil {
 		return nil
 	} else if len(resp.Header["Content-Length"]) > 1 &&
