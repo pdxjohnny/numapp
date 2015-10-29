@@ -58,4 +58,22 @@ var ConfigOptions = map[string]interface{}{
 			"help":  "Key for https server",
 		},
 	},
+	"user": map[string]interface{}{
+		"addr": map[string]interface{}{
+			"value": "0.0.0.0",
+			"help":  "Address to bind to",
+		},
+		"port": map[string]interface{}{
+			"value": 32345,
+			"help":  "Port to bind to",
+		},
+		"cert": map[string]interface{}{
+			"value": "keys/user/cert.pem",
+			"help":  "Certificate for https server",
+		},
+		"key": map[string]interface{}{
+			"value": "keys/user/key.pem",
+			"help":  "Key for https server",
+		},
+	},
 }

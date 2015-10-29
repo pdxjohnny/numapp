@@ -9,10 +9,14 @@ const (
 	APIPathUserServer = "/user/:id"
 	// APIPathUser is the path to a users settings
 	APIPathUser = "/api" + APIPathUserServer
-	// APIPathUserSettingsServer is the path to a users settings
-	APIPathUserSettingsServer = "/user/settings/:id"
-	// APIPathUserSettings is the path to a users settings
-	APIPathUserSettings = "/api" + APIPathUserSettingsServer
+	// APIPathUserLoginServer is the path for a user to login
+	APIPathUserLoginServer = "/user/login"
+	// APIPathUserLogin is the for a user to login
+	APIPathUserLogin = "/api" + APIPathUserLoginServer
+	// APIPathUserRegisterServer is the path for a user to register
+	APIPathUserRegisterServer = "/user/register"
+	// APIPathUserRegister is the for a user to register
+	APIPathUserRegister = "/api" + APIPathUserRegisterServer
 )
 
 var (

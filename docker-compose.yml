@@ -1,6 +1,19 @@
 web:
   image: pdxjohnny/numapp
-  command: /app/run http --cert=
+  command: /app/run http
+  ports:
+    - "12345:8080"
+  volumes:
+    - ./static:/app/static
+  links:
+    - user
+    - db
+  environment:
+    NUMAPP_CERT: "false"
+    SERVICE_PROTOCOL: "http"
+user:
+  image: pdxjohnny/numapp
+  command: /app/run user
   ports:
     - "12345:8080"
   volumes:
@@ -8,13 +21,16 @@ web:
   links:
     - db
   environment:
+    NUMAPP_CERT: "false"
     SERVICE_PROTOCOL: "http"
 db:
   image: pdxjohnny/numapp
-  command: /app/run db --cert=
+  command: /app/run db
   expose:
     - "42345"
   links:
     - mongo
+  environment:
+    NUMAPP_CERT: "false"
 mongo:
   image: mongo
