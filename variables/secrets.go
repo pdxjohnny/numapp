@@ -12,9 +12,11 @@ const (
 	// stores the reCAPTCHA secret
 	EnvRecaptchaSecret = "REC_SECRET"
 	// BcryptLowest is the lowest cost allowed for bcrypt
-	BcryptLowest = 5
+	BcryptLowest = bcrypt.DefaultCost
 	// BcryptLowestTime is the lowest time allowed for the bcrypt cost
 	BcryptLowestTime = time.Duration(1000 * time.Millisecond)
+	// TokenLength is the length of an auth token
+	TokenLength = 20
 )
 
 var (

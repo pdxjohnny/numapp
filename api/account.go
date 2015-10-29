@@ -6,14 +6,14 @@ import (
 	"github.com/pdxjohnny/numapp/variables"
 )
 
-// GetAccount calls database handler and retrives an account
+// GetAccount retrives an account
 func GetAccount(host, id string) (*map[string]interface{}, error) {
 	path := variables.APIPathAccount
 	path = strings.Replace(path, ":id", id, 1)
 	return GenericRequest(host, path, nil)
 }
 
-// SaveAccount calls database handler and saves an account
+// SaveAccount saves an account
 func SaveAccount(host, id string, doc map[string]interface{}) (*map[string]interface{}, error) {
 	path := variables.APIPathAccount
 	path = strings.Replace(path, ":id", id, 1)

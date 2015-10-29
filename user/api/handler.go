@@ -14,10 +14,10 @@ func MakeHandler() *http.Handler {
 	api := rest.NewApi()
 	api.Use(rest.DefaultProdStack...)
 	router, err := rest.MakeRouter(
-		rest.Post("/user/login/:username", PostLogin),
-		rest.Post("/user/register/:username", PostRegister),
-		rest.Get(variables.APIPathUserSettingsServer, GetSettings),
-		rest.Post(variables.APIPathUserSettingsServer, PostSettings),
+		rest.Post("/user/login/:id", PostLogin),
+		rest.Post("/user/register/:id", PostRegister),
+		rest.Get(variables.APIPathUserServer, GetUser),
+		rest.Post(variables.APIPathUserServer, PostUser),
 	)
 	if err != nil {
 		log.Fatal(err)

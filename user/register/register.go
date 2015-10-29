@@ -19,12 +19,12 @@ func Register(registerDoc map[string]interface{}) error {
 	if ok != true {
 		return errors.New("Need a password to register")
 	}
-	doc, err := api.GetAccount(variables.ServiceDBURL, id)
+	doc, err := api.GetUser(variables.ServiceDBURL, id)
 	if err != nil || doc != nil {
 		return errors.New("Username is already taken")
 	}
 
-	// Hashing the password with the default cost of 10
+	// Hashing the password
 	hashedPassword, err := bcrypt.GenerateFromPassword(
 		[]byte(password),
 		variables.BcryptCost,
@@ -32,9 +32,9 @@ func Register(registerDoc map[string]interface{}) error {
 	if err != nil {
 		return err
 	}
-	registerDoc["password"] = string(hashedPassword)
+	registerDoc["password"] = hashedPassword
 
-	_, err = api.SaveAccount(variables.ServiceDBURL, id, registerDoc)
+	_, err = api.SaveUser(variables.ServiceDBURL, id, registerDoc)
 	if err != nil {
 		return err
 	}

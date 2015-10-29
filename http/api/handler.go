@@ -18,10 +18,10 @@ func MakeHandler() *http.Handler {
 		rest.Get(variables.APIPathAccountServer, GetAccount),
 		rest.Post(variables.APIPathAccountServer, PostAccount),
 		// For user actions such as login
-		rest.Post("/user/login/:username", PostUserLogin),
-		rest.Post("/user/register/:username", PostUserRegister),
-		rest.Get(variables.APIPathUserSettingsServer, GetUserSettings),
-		rest.Post(variables.APIPathUserSettingsServer, PostUserSettings),
+		rest.Get(variables.APIPathUserServer, GetUser),
+		rest.Post(variables.APIPathUserServer, PostUser),
+		rest.Post("/user/login/:id", PostUserLogin),
+		rest.Post("/user/register/:id", PostUserRegister),
 	)
 	if err != nil {
 		log.Fatal(err)

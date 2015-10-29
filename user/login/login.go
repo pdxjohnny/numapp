@@ -26,7 +26,8 @@ func Login(loginDoc map[string]string) (string, error) {
 		return "", errors.New("Could not find username")
 	}
 	// Comparing the password with the hash
-	err = bcrypt.CompareHashAndPassword(hashedPassword, password)
+	realPassword := (*doc)["password"].([]byte)
+	err = bcrypt.CompareHashAndPassword(realPassword, []byte(password))
 	if err != nil {
 		return "", err
 	}
