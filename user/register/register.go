@@ -31,7 +31,7 @@ func Register(registerDoc map[string]interface{}) error {
 	// Verify with google reCAPTCHA
 	err = recaptcha.Verify(variables.RecaptchaSecret, reCAPTCHA)
 	if err != nil {
-		return errors.New("reCAPTCHA invalid")
+		return errors.New(err.Error())
 	}
 
 	// Hashing the password

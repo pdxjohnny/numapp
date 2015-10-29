@@ -1,6 +1,9 @@
 package recaptcha
 
-import "errors"
+import (
+	"errors"
+	"log"
+)
 
 const (
 	// VerifyURL is the url to POST to, owned by google
@@ -24,6 +27,7 @@ func Verify(secret, userResponse string) error {
 		return errors.New("Response did not contain \"success\"")
 	}
 	if success != true {
+		log.Println("reCAPTCHA Verify Failed:", result)
 		return errors.New("reCAPTCHA was invalid")
 	}
 	return nil

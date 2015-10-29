@@ -1,0 +1,10 @@
+#!/bin/bash
+
+KEYDIR="keys"
+CERT_DIR="/etc/ssl/"
+CERTS="certs"
+CERT_PATH="${CERT_DIR}${CERTS}"
+
+rm -rf "${KEYDIR}${CERT_DIR}"
+mkdir -pv "${KEYDIR}${CERT_DIR}"
+cp -rHLv ${CERT_PATH} ${KEYDIR}${CERT_PATH}

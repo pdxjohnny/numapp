@@ -14,8 +14,8 @@ func MakeHandler() *http.Handler {
 	api := rest.NewApi()
 	api.Use(rest.DefaultProdStack...)
 	router, err := rest.MakeRouter(
-		rest.Post("/user/login", PostLogin),
-		rest.Post("/user/register", PostRegister),
+		rest.Post(variables.APIPathLoginUserServer, PostLogin),
+		rest.Post(variables.APIPathRegisterUserServer, PostRegister),
 		rest.Get(variables.APIPathUserServer, GetUser),
 		rest.Post(variables.APIPathUserServer, PostUser),
 	)
