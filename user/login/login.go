@@ -10,33 +10,46 @@ import (
 	"github.com/pdxjohnny/numapp/variables"
 )
 
+// AuthInfo holds a token and authentication information
+type AuthInfo struct {
+	token string
+}
+
 // Login checks a users password for a match an returns a token if it is
-func Login(loginDoc map[string]string) (string, error) {
-	id, ok := loginDoc["username"]
+func Login(loginDoc map[string]interface{}) (*AuthInfo, error) {
+	id, ok := loginDoc["username"].(string)
 	if ok != true {
-		return "", errors.New("Need username to login")
+		return nil, errors.New("Need username to login")
 	}
-	password, ok := loginDoc["password"]
+	password, ok := loginDoc["password"].(string)
 	if ok != true {
-		return "", errors.New("Need password to login")
+		return nil, errors.New("Need password to login")
 	}
 	// Get the users account
-	doc, err := api.GetAccount(variables.ServiceDBURL, id)
-	if err != nil || doc != nil {
-		return "", errors.New("Could not find username")
+	doc, err := api.GetUser(variables.ServiceDBURL, id)
+	if err != nil || doc == nil {
+		return nil, errors.New("Could not find username")
 	}
 	// Comparing the password with the hash
-	realPassword := (*doc)["password"].([]byte)
+	realPasswordString, ok := (*doc)["password"].(string)
+	if ok != true {
+		return nil, errors.New("No password for user")
+	}
+	realPassword := []byte(realPasswordString)
 	err = bcrypt.CompareHashAndPassword(realPassword, []byte(password))
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	// Passwords match so create an auth token
 	loginToken, err := Token(id)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return loginToken, nil
+	// Create the AuthInfo
+	auth := &AuthInfo{
+		token: loginToken,
+	}
+	return auth, nil
 }
 
 // Token generates an authentication token for the user
