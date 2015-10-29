@@ -16,8 +16,8 @@ func MakeHandler() *http.Handler {
 	router, err := rest.MakeRouter(
 		rest.Post("/user/login/:username", PostLogin),
 		rest.Post("/user/register/:username", PostRegister),
-		rest.Get(variables.APIUserSettingsServer, GetSettings),
-		rest.Post(variables.APIUserSettingsServer, PostSettings),
+		rest.Get(variables.APIPathUserSettingsServer, GetSettings),
+		rest.Post(variables.APIPathUserSettingsServer, PostSettings),
 	)
 	if err != nil {
 		log.Fatal(err)
