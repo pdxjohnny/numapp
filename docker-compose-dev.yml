@@ -1,5 +1,5 @@
 web:
-  image: pdxjohnny/numapp
+  image: pdxjohnny/numapp:dev
   command: /app/run http
   ports:
     - "12345:8080"
@@ -8,19 +8,27 @@ web:
   links:
     - user
     - db
+  environment:
+    NUMAPP_CERT: "false"
+    SERVICE_PROTOCOL: "http"
 user:
-  image: pdxjohnny/numapp
+  image: pdxjohnny/numapp:dev
   command: /app/run user
   ports:
     - "42345"
   links:
     - db
+  environment:
+    NUMAPP_CERT: "false"
+    SERVICE_PROTOCOL: "http"
 db:
-  image: pdxjohnny/numapp
+  image: pdxjohnny/numapp:dev
   command: /app/run db
   expose:
     - "42345"
   links:
     - mongo
+  environment:
+    NUMAPP_CERT: "false"
 mongo:
   image: mongo

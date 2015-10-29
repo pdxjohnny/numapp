@@ -25,7 +25,7 @@ var (
 func init() {
 	ServiceProtocol = os.Getenv(EnvServiceProtocol)
 	if ServiceProtocol == "" {
-		ServiceProtocol = "http"
+		ServiceProtocol = "https"
 	}
 	ServiceDBURL = os.Getenv(EnvServiceDBURL)
 	ServiceDBURL = strings.Replace(ServiceDBURL, "tcp", ServiceProtocol, 1)

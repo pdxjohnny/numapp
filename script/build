@@ -48,6 +48,11 @@ docker run --rm -v `pwd`:/go/src/github.com/${GITHUB_USERNAME}/${PRODUCT_NAME} "
 # Build the docker image
 if [[ -z "$SKIP_IMAGE" ]]; then
   docker build -t "${GITHUB_USERNAME}/${PRODUCT_NAME}:dev" .
-  echo "Built ${GITHUB_USERNAME}/${PRODUCT_NAME}"
-  echo "docker run --rm -ti ${GITHUB_USERNAME}/${PRODUCT_NAME}"
+  echo "Built ${GITHUB_USERNAME}/${PRODUCT_NAME}:dev"
+  echo "docker-compose -f docker-compose-dev.yml up"
+fi
+
+# Run the docker image
+if [[ "$RUN_IMAGE" == "1" ]]; then
+  docker-compose -f docker-compose-dev.yml up
 fi
