@@ -13,6 +13,10 @@ const (
 // Verify checks with googles verification server to make sure the user
 // got the recaptcha correct
 func Verify(secret, userResponse string) error {
+	// Make sure secret key is not blank
+	if len(secret) < 1 {
+		return errors.New("Server Error: No reCAPTCHA secret key")
+	}
 	data := map[string]string{
 		"secret":   secret,
 		"response": userResponse,
@@ -27,7 +31,7 @@ func Verify(secret, userResponse string) error {
 		return errors.New("Response did not contain \"success\"")
 	}
 	if success != true {
-		log.Println("reCAPTCHA Verify Failed:", result)
+		log.Println("reCAPTCHA verification failed:", result)
 		return errors.New("reCAPTCHA was invalid")
 	}
 	return nil

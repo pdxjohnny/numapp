@@ -1,16 +1,16 @@
 package variables
 
 import (
-	"os"
+	"io/ioutil"
+	"strings"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
 const (
-	// EnvRecaptchaSecret is the environment variable that
-	// stores the reCAPTCHA secret
-	EnvRecaptchaSecret = "REC_SECRET"
+	// RecaptchaSecretFile is the file that holds the reCAPTCHA secret key
+	RecaptchaSecretFile = "keys/reCAPTCHA"
 	// BcryptLowest is the lowest cost allowed for bcrypt
 	BcryptLowest = bcrypt.DefaultCost
 	// BcryptLowestTime is the lowest time allowed for the bcrypt cost
@@ -46,6 +46,10 @@ func benchmarkBcrypt() int {
 }
 
 func init() {
-	RecaptchaSecret = os.Getenv(EnvRecaptchaSecret)
+	RecaptchaSecret = ""
+	fileData, err := ioutil.ReadFile(RecaptchaSecretFile)
+	if err == nil {
+		RecaptchaSecret = strings.TrimSpace(string(fileData))
+	}
 	BcryptCost = benchmarkBcrypt()
 }
