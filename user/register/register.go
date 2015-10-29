@@ -14,16 +14,16 @@ import (
 func Register(registerDoc map[string]interface{}) error {
 	id, ok := registerDoc["username"].(string)
 	if ok != true {
-		return errors.New("Need a username to register")
+		return errors.New("Need username to register")
 	}
 	passwordString, ok := registerDoc["password"].(string)
 	if ok != true {
-		return errors.New("Need a password to register")
+		return errors.New("Need password to register")
 	}
 	password := []byte(passwordString)
-	reCAPTCHA, ok := registerDoc["reCAPTCHA"].(string)
+	reCAPTCHA, ok := registerDoc["g-recaptcha-response"].(string)
 	if ok != true {
-		return errors.New("Need a reCAPTCHA to register")
+		return errors.New("Need g-recaptcha-response to register")
 	}
 	doc, err := api.GetUser(variables.ServiceDBURL, id)
 	if err != nil || doc != nil {

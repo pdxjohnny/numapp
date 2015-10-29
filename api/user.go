@@ -6,6 +6,18 @@ import (
 	"github.com/pdxjohnny/numapp/variables"
 )
 
+// LoginUser logs in a user
+func LoginUser(host, id string, doc map[string]interface{}) (*map[string]interface{}, error) {
+	path := variables.APIPathUserLogin
+	return GenericRequest(host, path, doc)
+}
+
+// RegisterUser registers a user
+func RegisterUser(host, id string) (*map[string]interface{}, error) {
+	path := variables.APIPathUserRegister
+	return GenericRequest(host, path, nil)
+}
+
 // GetUser retrives a user
 func GetUser(host, id string) (*map[string]interface{}, error) {
 	path := variables.APIPathUser

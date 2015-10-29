@@ -14,11 +14,11 @@ import (
 func Login(loginDoc map[string]string) (string, error) {
 	id, ok := loginDoc["username"]
 	if ok != true {
-		return "", errors.New("Need a username to login")
+		return "", errors.New("Need username to login")
 	}
 	password, ok := loginDoc["password"]
 	if ok != true {
-		return "", errors.New("Need a password to login")
+		return "", errors.New("Need password to login")
 	}
 	// Get the users account
 	doc, err := api.GetAccount(variables.ServiceDBURL, id)
