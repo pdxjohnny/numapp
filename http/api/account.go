@@ -26,14 +26,14 @@ func GetAccount(w rest.ResponseWriter, r *rest.Request) {
 
 // PostAccount uses get to retrive a document
 func PostAccount(w rest.ResponseWriter, r *rest.Request) {
-	var saveDoc map[string]interface{}
+	var recvDoc map[string]interface{}
 	id := r.PathParam("id")
-	err := r.DecodeJsonPayload(&saveDoc)
+	err := r.DecodeJsonPayload(&recvDoc)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	doc, err := api.SaveAccount(variables.ServiceDBURL, id, saveDoc)
+	doc, err := api.SaveAccount(variables.ServiceDBURL, id, recvDoc)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return

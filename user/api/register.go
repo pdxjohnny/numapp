@@ -21,6 +21,7 @@ func PostRegister(w rest.ResponseWriter, r *rest.Request) {
 	log.Println("Registering")
 	err = register.Register(registerReq)
 	if err != nil {
+		log.Println("Error registering", err.Error())
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

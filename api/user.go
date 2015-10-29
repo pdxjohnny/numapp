@@ -7,15 +7,15 @@ import (
 )
 
 // LoginUser logs in a user
-func LoginUser(host, id string, doc map[string]interface{}) (*map[string]interface{}, error) {
-	path := variables.APIPathUserLogin
+func LoginUser(host string, doc map[string]interface{}) (*map[string]interface{}, error) {
+	path := variables.APIPathLoginUser
 	return GenericRequest(host, path, doc)
 }
 
 // RegisterUser registers a user
-func RegisterUser(host, id string) (*map[string]interface{}, error) {
-	path := variables.APIPathUserRegister
-	return GenericRequest(host, path, nil)
+func RegisterUser(host string, doc map[string]interface{}) (*map[string]interface{}, error) {
+	path := variables.APIPathRegisterUser
+	return GenericRequest(host, path, doc)
 }
 
 // GetUser retrives a user

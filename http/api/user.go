@@ -1,23 +1,89 @@
 package api
 
-import "github.com/ant0ine/go-json-rest/rest"
+import (
+	"net/http"
 
-// PostUserLogin logs in a user
-func PostUserLogin(w rest.ResponseWriter, r *rest.Request) {
+	"github.com/ant0ine/go-json-rest/rest"
 
+	"github.com/pdxjohnny/numapp/api"
+	"github.com/pdxjohnny/numapp/variables"
+)
+
+// PostLoginUser logs in a user
+func PostLoginUser(w rest.ResponseWriter, r *rest.Request) {
+	var recvDoc map[string]interface{}
+	err := r.DecodeJsonPayload(&recvDoc)
+	if err != nil {
+		rest.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	doc, err := api.LoginUser(variables.ServiceUserURL, recvDoc)
+	if err != nil {
+		rest.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	if doc == nil {
+		w.(http.ResponseWriter).Write(variables.BlankResponse)
+		return
+	}
+	w.WriteJson(doc)
 }
 
-// PostUserRegister registers a new user
-func PostUserRegister(w rest.ResponseWriter, r *rest.Request) {
-
+// PostRegisterUser registers a new user
+func PostRegisterUser(w rest.ResponseWriter, r *rest.Request) {
+	var recvDoc map[string]interface{}
+	err := r.DecodeJsonPayload(&recvDoc)
+	if err != nil {
+		rest.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	doc, err := api.RegisterUser(variables.ServiceUserURL, recvDoc)
+	if err != nil {
+		rest.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	if doc == nil {
+		w.(http.ResponseWriter).Write(variables.BlankResponse)
+		return
+	}
+	w.WriteJson(doc)
 }
 
-// GetUser gets a users settings
+// GetUser returns the accounts for an id
 func GetUser(w rest.ResponseWriter, r *rest.Request) {
-
+	id := r.PathParam("id")
+	doc, err := api.GetUser(variables.ServiceUserURL, id)
+	if err != nil {
+		rest.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+	if doc == nil {
+		w.(http.ResponseWriter).Write(variables.BlankResponse)
+		return
+	}
+	w.WriteJson(doc)
 }
 
-// PostUser saves a users settings
+// PostUser uses get to retrive a document
 func PostUser(w rest.ResponseWriter, r *rest.Request) {
-
+	var recvDoc map[string]interface{}
+	id := r.PathParam("id")
+	err := r.DecodeJsonPayload(&recvDoc)
+	if err != nil {
+		rest.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	doc, err := api.SaveUser(variables.ServiceUserURL, id, recvDoc)
+	if err != nil {
+		rest.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	if doc == nil {
+		w.(http.ResponseWriter).Write(variables.BlankResponse)
+		return
+	}
+	w.WriteJson(doc)
 }

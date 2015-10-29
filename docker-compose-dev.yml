@@ -15,7 +15,7 @@ user:
   image: pdxjohnny/numapp:dev
   command: /app/run user
   ports:
-    - "42345"
+    - "32345"
   links:
     - db
   environment:

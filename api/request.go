@@ -18,7 +18,12 @@ func GenericRequest(host, path string, data interface{}) (*map[string]interface{
 	if err != nil {
 		return nil, err
 	} else if resp.StatusCode != 200 {
-		return nil, errors.New(resp.Status)
+		// Return the servers error message as the error if we can
+		value, ok := result["Error"]
+		if ok != true {
+			return nil, errors.New(resp.Status)
+		}
+		return nil, errors.New(value.(string))
 	}
 	return &result, nil
 }
