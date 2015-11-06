@@ -5,8 +5,8 @@ import (
 
 	"github.com/ant0ine/go-json-rest/rest"
 
-	"github.com/pdxjohnny/numapp/user/login"
 	"github.com/pdxjohnny/numapp/user/register"
+	"github.com/pdxjohnny/numapp/variables"
 )
 
 // PostRegister registers a new user
@@ -22,11 +22,5 @@ func PostRegister(w rest.ResponseWriter, r *rest.Request) {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	// Now log them in
-	auth, err := login.Login(registerReq)
-	if err != nil {
-		rest.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	w.WriteJson(auth)
+	w.WriteJson(variables.BlankResponse)
 }

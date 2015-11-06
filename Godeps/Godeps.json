@@ -21,12 +21,13 @@
 			"Rev": "71acacd42f85e5e82f70a55327789582a5200a90"
 		},
 		{
-			"ImportPath": "github.com/inconshreveable/mousetrap",
-			"Rev": "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75"
+			"ImportPath": "github.com/dgrijalva/jwt-go",
+			"Comment": "v2.3.0-1-g9fe8afe",
+			"Rev": "9fe8afe96d32468fba230b8b22acea86251f0506"
 		},
 		{
-			"ImportPath": "github.com/jmcvetta/randutil",
-			"Rev": "2bb1b664bcff821e02b2a0644cd29c7e824d54f8"
+			"ImportPath": "github.com/inconshreveable/mousetrap",
+			"Rev": "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75"
 		},
 		{
 			"ImportPath": "github.com/kr/pretty",
@@ -45,6 +46,10 @@
 		{
 			"ImportPath": "github.com/mitchellh/mapstructure",
 			"Rev": "281073eb9eb092240d33ef253c404f1cca550309"
+		},
+		{
+			"ImportPath": "github.com/pdxjohnny/go-json-rest-middleware-jwt",
+			"Rev": "44fa1ff8561717d6ac80239dc211bd516156f9e6"
 		},
 		{
 			"ImportPath": "github.com/russross/blackfriday",
