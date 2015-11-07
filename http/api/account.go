@@ -12,7 +12,7 @@ import (
 // GetAccount returns the accounts for an id
 func GetAccount(w rest.ResponseWriter, r *rest.Request) {
 	id := r.PathParam("id")
-	doc, err := api.GetAccount(variables.ServiceDBURL, id)
+	doc, err := api.GetAccount(variables.ServiceDBURL, variables.BackendToken, id)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusNotFound)
 		return
@@ -33,7 +33,7 @@ func PostAccount(w rest.ResponseWriter, r *rest.Request) {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	doc, err := api.SaveAccount(variables.ServiceDBURL, id, recvDoc)
+	doc, err := api.SaveAccount(variables.ServiceDBURL, variables.BackendToken, id, recvDoc)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return

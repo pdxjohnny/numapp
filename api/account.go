@@ -7,16 +7,16 @@ import (
 )
 
 // GetAccount retrives an account
-func GetAccount(host, id string) (*map[string]interface{}, error) {
+func GetAccount(host, token, id string) (*map[string]interface{}, error) {
 	path := variables.APIPathAccount
 	path = strings.Replace(path, ":id", id, 1)
-	return GenericRequest(host, path, nil)
+	return GenericRequest(host, path, token, nil)
 }
 
 // SaveAccount saves an account
-func SaveAccount(host, id string, doc map[string]interface{}) (*map[string]interface{}, error) {
+func SaveAccount(host, token, id string, doc map[string]interface{}) (*map[string]interface{}, error) {
 	path := variables.APIPathAccount
 	path = strings.Replace(path, ":id", id, 1)
 	doc["_id"] = id
-	return GenericRequest(host, path, doc)
+	return GenericRequest(host, path, token, doc)
 }

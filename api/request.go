@@ -8,13 +8,13 @@ import (
 )
 
 // GenericRequest makes a request and wraps it in some error handling
-func GenericRequest(host, path string, data interface{}) (*map[string]interface{}, error) {
+func GenericRequest(host, path, token string, data interface{}) (*map[string]interface{}, error) {
 	var result map[string]interface{}
 	if host == "" {
 		return nil, errors.New("500 No host given")
 	}
 	host += path
-	resp, err := RESTRequest(host, data, &result)
+	resp, err := RESTRequest(host, token, data, &result)
 	if err != nil {
 		return nil, err
 	} else if resp.StatusCode != 200 {
@@ -29,7 +29,7 @@ func GenericRequest(host, path string, data interface{}) (*map[string]interface{
 }
 
 // RESTRequest makes a rest request to a url and posts data as json
-func RESTRequest(url string, data interface{}, result interface{}) (*http.Response, error) {
+func RESTRequest(url, token string, data interface{}, result interface{}) (*http.Response, error) {
 	var request *http.Request
 	if data != nil {
 		jsonBytes, err := json.Marshal(data)

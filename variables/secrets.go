@@ -2,6 +2,7 @@ package variables
 
 import (
 	"io/ioutil"
+	"os"
 	"strings"
 	"time"
 
@@ -9,8 +10,8 @@ import (
 )
 
 const (
-	// RecaptchaSecretFile is the file that holds the reCAPTCHA secret key
-	RecaptchaSecretFile = "keys/reCAPTCHA"
+	// EnvRecaptchaSecretFile is the path to reCAPTCHA secret file
+	EnvRecaptchaSecretFile = "RECAPTCHA_PATH"
 	// BcryptLowest is the lowest cost allowed for bcrypt
 	BcryptLowest = bcrypt.DefaultCost
 	// BcryptLowestTime is the lowest time allowed for the bcrypt cost
@@ -24,6 +25,8 @@ const (
 )
 
 var (
+	// RecaptchaSecretFile is the file that holds the reCAPTCHA secret key
+	RecaptchaSecretFile = "keys/reCAPTCHA"
 	// RecaptchaSecret is the variable that stores the reCAPTCHA secret
 	RecaptchaSecret string
 	// BcryptCost is the cost used for bcrypt
@@ -42,10 +45,14 @@ func benchmarkBcrypt() int {
 	if cost < BcryptLowest {
 		return BcryptLowest
 	}
-	return cost
+	// Just in case
+	return cost + 1
 }
 
 func init() {
+	if os.Getenv(EnvRecaptchaSecretFile) != "" {
+		RecaptchaSecretFile = os.Getenv(EnvRecaptchaSecretFile)
+	}
 	RecaptchaSecret = ""
 	fileData, err := ioutil.ReadFile(RecaptchaSecretFile)
 	if err == nil {

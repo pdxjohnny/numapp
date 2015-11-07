@@ -25,7 +25,7 @@ func Register(registerDoc map[string]interface{}) error {
 	password := registerDoc["password"].(string)
 	reCAPTCHA := registerDoc["g-recaptcha-response"].(string)
 	// Make sure the user does not exist already
-	doc, err := api.GetUser(variables.ServiceDBURL, id)
+	doc, err := api.GetUser(variables.ServiceDBURL, variables.BackendToken, id)
 	if doc != nil {
 		return errors.New("Username is already taken")
 	}
@@ -51,7 +51,7 @@ func Register(registerDoc map[string]interface{}) error {
 		"password": hashedPassword,
 	}
 
-	_, err = api.SaveUser(variables.ServiceDBURL, id, saveDoc)
+	_, err = api.SaveUser(variables.ServiceDBURL, variables.BackendToken, id, saveDoc)
 	if err != nil {
 		return err
 	}

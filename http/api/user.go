@@ -17,7 +17,7 @@ func PostLoginUser(w rest.ResponseWriter, r *rest.Request) {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	doc, err := api.LoginUser(variables.ServiceUserURL, recvDoc)
+	doc, err := api.LoginUser(variables.ServiceUserURL, variables.BackendToken, recvDoc)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -38,7 +38,7 @@ func PostRegisterUser(w rest.ResponseWriter, r *rest.Request) {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	doc, err := api.RegisterUser(variables.ServiceUserURL, recvDoc)
+	doc, err := api.RegisterUser(variables.ServiceUserURL, variables.BackendToken, recvDoc)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -54,7 +54,7 @@ func PostRegisterUser(w rest.ResponseWriter, r *rest.Request) {
 // GetUser returns the accounts for an id
 func GetUser(w rest.ResponseWriter, r *rest.Request) {
 	id := r.PathParam("id")
-	doc, err := api.GetUser(variables.ServiceUserURL, id)
+	doc, err := api.GetUser(variables.ServiceUserURL, variables.BackendToken, id)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusNotFound)
 		return
@@ -75,7 +75,7 @@ func PostUser(w rest.ResponseWriter, r *rest.Request) {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	doc, err := api.SaveUser(variables.ServiceUserURL, id, recvDoc)
+	doc, err := api.SaveUser(variables.ServiceUserURL, variables.BackendToken, id, recvDoc)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return

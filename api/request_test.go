@@ -23,7 +23,7 @@ func TestRESTRequest(t *testing.T) {
 		fmt.Fprintf(w, "")
 	}))
 	defer ts.Close()
-	_, err := RESTRequest(ts.URL, nil, nil)
+	_, err := RESTRequest(ts.URL, "", nil, nil)
 	if err != nil {
 		panic(err)
 	}
@@ -44,7 +44,7 @@ func TestRESTRequestData(t *testing.T) {
 		checkSame(data, result, "test")
 	}))
 	defer ts.Close()
-	_, err := RESTRequest(ts.URL, &data, nil)
+	_, err := RESTRequest(ts.URL, "", &data, nil)
 	if err != nil {
 		panic(err)
 	}
@@ -65,7 +65,7 @@ func TestRESTRequestResult(t *testing.T) {
 	}))
 	defer ts.Close()
 	var result = map[string]string{}
-	_, err := RESTRequest(ts.URL, nil, &result)
+	_, err := RESTRequest(ts.URL, "", nil, &result)
 	if err != nil {
 		panic(err)
 	}
@@ -82,7 +82,7 @@ func TestRESTRequestDataAndResult(t *testing.T) {
 		io.Copy(w, r.Body)
 	}))
 	defer ts.Close()
-	_, err := RESTRequest(ts.URL, &data, &result)
+	_, err := RESTRequest(ts.URL, "", &data, &result)
 	if err != nil {
 		panic(err)
 	}
