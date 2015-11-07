@@ -32,3 +32,5 @@ db:
     NUMAPP_CERT: "false"
 mongo:
   image: mongo
+  volumes:
+    - /srv/docker/mongodb:/var/lib/mongodb

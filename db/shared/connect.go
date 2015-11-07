@@ -19,7 +19,7 @@ func init() {
 
 // Connection makes MongoConn accessable
 func Connection() *mgo.Session {
-	if !connectionAttempted && MongoConn == nil {
+	if MongoConn == nil {
 		InitConnection()
 	}
 	return MongoConn
