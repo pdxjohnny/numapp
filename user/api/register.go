@@ -22,5 +22,5 @@ func PostRegister(w rest.ResponseWriter, r *rest.Request) {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	w.WriteJson(variables.BlankResponse)
+	w.(http.ResponseWriter).Write(variables.BlankResponse)
 }
