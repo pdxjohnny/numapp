@@ -52,7 +52,6 @@ func MakeHandler() *http.Handler {
 	api.Use(&rest.IfMiddleware{
 		// Only authenticate non login or register requests
 		Condition: func(request *rest.Request) bool {
-			fmt.Println("Auth needed", (request.URL.Path != variables.APIPathLoginUserServer) && (request.URL.Path != variables.APIPathRegisterUserServer))
 			return (request.URL.Path != variables.APIPathLoginUserServer) && (request.URL.Path != variables.APIPathRegisterUserServer)
 		},
 		IfTrue: authMiddleware,

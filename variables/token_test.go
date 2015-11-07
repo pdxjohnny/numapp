@@ -1,7 +1,7 @@
 package variables
 
 import (
-	"fmt"
+	"errors"
 	"os"
 	"testing"
 )
@@ -13,5 +13,7 @@ func TestLoadToken(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("BackendToken", BackendToken)
+	if BackendToken == "" {
+		panic(errors.New("BackendToken is empty"))
+	}
 }

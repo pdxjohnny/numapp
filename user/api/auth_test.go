@@ -71,8 +71,8 @@ func TestBackendTokenHasAccess(t *testing.T) {
 func TestAllOtherPathsNeedAuth(t *testing.T) {
 	handler := MakeHandler()
 
-	validReq := test.MakeSimpleRequest("GET", "http://localhost/", nil)
-	res := test.RunRequest(t, *handler, validReq)
+	req := test.MakeSimpleRequest("GET", "http://localhost/", nil)
+	res := test.RunRequest(t, *handler, req)
 	res.CodeIs(401)
 	res.ContentTypeIsJson()
 }
