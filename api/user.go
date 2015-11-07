@@ -9,13 +9,19 @@ import (
 // LoginUser logs in a user
 func LoginUser(host, token string, doc map[string]interface{}) (*map[string]interface{}, error) {
 	path := variables.APIPathLoginUser
-	return GenericRequest(host, path, "", doc)
+	return GenericRequest(host, path, token, doc)
+}
+
+// RefreshUser gets a new toke for the user
+func RefreshUser(host, token string) (*map[string]interface{}, error) {
+	path := variables.APIPathRefreshUser
+	return GenericRequest(host, path, token, nil)
 }
 
 // RegisterUser registers a user
 func RegisterUser(host, token string, doc map[string]interface{}) (*map[string]interface{}, error) {
 	path := variables.APIPathRegisterUser
-	return GenericRequest(host, path, "", doc)
+	return GenericRequest(host, path, token, doc)
 }
 
 // GetUser retrives a user

@@ -36,17 +36,17 @@ var (
 
 // LoadTokenKeys loads the tokens from files
 func LoadTokenKeys() error {
-	err := loadTokenSignKey()
+	err := LoadTokenSignKey()
 	if err != nil {
 		log.Println("Error loading TokenSignKey:", err)
 		return err
 	}
-	err = loadTokenVerifyKey()
+	err = LoadTokenVerifyKey()
 	if err != nil {
 		log.Println("Error loading TokenVerifyKey:", err)
 		return err
 	}
-	err = createBackendToken()
+	err = CreateBackendToken()
 	if err != nil {
 		log.Println("Failed to sign BackendToken:", err)
 		return err
@@ -54,7 +54,8 @@ func LoadTokenKeys() error {
 	return nil
 }
 
-func loadTokenSignKey() error {
+// LoadTokenSignKey reads the private key from EnvTokenSignKey
+func LoadTokenSignKey() error {
 	tokenSignKeyPath := os.Getenv(EnvTokenSignKey)
 	if tokenSignKeyPath == "" {
 		tokenSignKeyPath = TokenSignKeyDefault
@@ -75,7 +76,8 @@ func loadTokenSignKey() error {
 	return nil
 }
 
-func loadTokenVerifyKey() error {
+// LoadTokenVerifyKey reads the public key from EnvTokenVerifyKey
+func LoadTokenVerifyKey() error {
 	tokenVerifyKeyPath := os.Getenv(EnvTokenVerifyKey)
 	if tokenVerifyKeyPath == "" {
 		tokenVerifyKeyPath = TokenVerifyKeyDefault
@@ -100,7 +102,8 @@ func loadTokenVerifyKey() error {
 	return nil
 }
 
-func createBackendToken() error {
+// CreateBackendToken uses the signing key to create a token
+func CreateBackendToken() error {
 	var err error
 	token := jwt.New(jwt.GetSigningMethod(SigningAlgorithm))
 

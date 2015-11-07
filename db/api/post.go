@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -19,6 +20,7 @@ func PostDoc(w rest.ResponseWriter, r *rest.Request) {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	fmt.Println(doc)
 	err = save.Save(collection, doc)
 	if err != nil {
 		log.Println(err)

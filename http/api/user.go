@@ -30,6 +30,21 @@ func PostLoginUser(w rest.ResponseWriter, r *rest.Request) {
 	w.WriteJson(doc)
 }
 
+// PostRefreshUser logs in a user
+func PostRefreshUser(w rest.ResponseWriter, r *rest.Request) {
+	doc, err := api.RefreshUser(variables.ServiceUserURL, variables.BackendToken)
+	if err != nil {
+		rest.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	if doc == nil {
+		w.(http.ResponseWriter).Write(variables.BlankResponse)
+		return
+	}
+	w.WriteJson(doc)
+}
+
 // PostRegisterUser registers a new user
 func PostRegisterUser(w rest.ResponseWriter, r *rest.Request) {
 	var recvDoc map[string]interface{}

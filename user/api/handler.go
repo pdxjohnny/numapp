@@ -44,7 +44,7 @@ func MakeHandler() *http.Handler {
 
 	authMiddleware, err := CreateAuthMiddleware()
 	if err != nil {
-		log.Println(err)
+		panic(err)
 	}
 
 	api.Use(&rest.IfMiddleware{
@@ -57,7 +57,7 @@ func MakeHandler() *http.Handler {
 	api.Use(rest.DefaultProdStack...)
 	router, err := rest.MakeRouter(
 		rest.Post(variables.APIPathLoginUserServer, authMiddleware.LoginHandler),
-		rest.Post(variables.APIPathRefreshUserServer, authMiddleware.RefreshHandler),
+		rest.Get(variables.APIPathRefreshUserServer, authMiddleware.RefreshHandler),
 		rest.Post(variables.APIPathRegisterUserServer, PostRegister),
 		rest.Get(variables.APIPathUserServer, GetUser),
 		rest.Post(variables.APIPathUserServer, PostUser),
