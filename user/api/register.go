@@ -1,6 +1,7 @@
 package api
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/ant0ine/go-json-rest/rest"
@@ -14,6 +15,7 @@ func PostRegister(w rest.ResponseWriter, r *rest.Request) {
 	var registerReq map[string]interface{}
 	err := r.DecodeJsonPayload(&registerReq)
 	if err != nil {
+		log.Println("DecodeJsonPayload", err)
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

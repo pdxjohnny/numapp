@@ -1,9 +1,7 @@
 package api
 
 import (
-	"crypto/ecdsa"
-	"crypto/elliptic"
-	"crypto/rand"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -15,23 +13,22 @@ import (
 	"github.com/pdxjohnny/numapp/variables"
 )
 
-// MakeHandler creates the api request handler
-func MakeHandler() *http.Handler {
-	api := rest.NewApi()
-
-	privateKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+// CreateAuthMiddleware creates the middleware for authtication
+func CreateAuthMiddleware() (*jwt.Middleware, error) {
+	err := variables.LoadTokenKeys()
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	authMiddleware := &jwt.Middleware{
-		Realm:            "test zone",
-		SigningAlgorithm: "ES256",
-		Key:              privateKey,
-		VerifyKey:        &privateKey.PublicKey,
+		Realm:            "numapp",
+		SigningAlgorithm: variables.SigningAlgorithm,
+		Key:              variables.TokenSignKey,
+		VerifyKey:        &variables.TokenSignKey.PublicKey,
 		Timeout:          time.Hour,
 		MaxRefresh:       time.Hour * 24,
 		Authenticator: func(username string, password string) error {
+			fmt.Println("Got login")
 			// Log the user in
 			err := login.Login(username, password)
 			if err != nil {
@@ -40,18 +37,30 @@ func MakeHandler() *http.Handler {
 			return nil
 		},
 	}
+	return authMiddleware, nil
+}
 
-	// Setup simple app structure
+// MakeHandler creates the api request handler
+func MakeHandler() *http.Handler {
+	api := rest.NewApi()
+
+	authMiddleware, err := CreateAuthMiddleware()
+	if err != nil {
+		log.Println(err)
+	}
+
 	api.Use(&rest.IfMiddleware{
-		// Only authenticate non /login requests
+		// Only authenticate non login or register requests
 		Condition: func(request *rest.Request) bool {
-			return request.URL.Path != variables.APIPathLoginUserServer
+			fmt.Println("Auth needed", (request.URL.Path != variables.APIPathLoginUserServer) && (request.URL.Path != variables.APIPathRegisterUserServer))
+			return (request.URL.Path != variables.APIPathLoginUserServer) && (request.URL.Path != variables.APIPathRegisterUserServer)
 		},
 		IfTrue: authMiddleware,
 	})
 	api.Use(rest.DefaultProdStack...)
 	router, err := rest.MakeRouter(
-		rest.Post(variables.APIPathLoginUserServer, PostLogin),
+		rest.Post(variables.APIPathLoginUserServer, authMiddleware.LoginHandler),
+		rest.Post(variables.APIPathRefreshUserServer, authMiddleware.RefreshHandler),
 		rest.Post(variables.APIPathRegisterUserServer, PostRegister),
 		rest.Get(variables.APIPathUserServer, GetUser),
 		rest.Post(variables.APIPathUserServer, PostUser),

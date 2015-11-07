@@ -9,7 +9,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func TestBenchmarkBcrypt(t *testing.T) {
+func BenchmarkBcryptCost(b *testing.B) {
 	fmt.Println("Lowest cost is", BcryptLowest, "computed is", BcryptCost)
 	t0 := time.Now()
 	bcrypt.GenerateFromPassword([]byte("password"), BcryptCost)

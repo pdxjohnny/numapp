@@ -13,6 +13,10 @@ const (
 	APIPathLoginUserServer = "/user/login"
 	// APIPathLoginUser is the for a user to login
 	APIPathLoginUser = "/api" + APIPathLoginUserServer
+	// APIPathRefreshUserServer is the path for a user to refresh JWT
+	APIPathRefreshUserServer = "/user/refresh"
+	// APIPathRefreshUser is the for a user to refresh JWT
+	APIPathRefreshUser = "/api" + APIPathRefreshUserServer
 	// APIPathRegisterUserServer is the path for a user to register
 	APIPathRegisterUserServer = "/user/register"
 	// APIPathRegisterUser is the for a user to register
