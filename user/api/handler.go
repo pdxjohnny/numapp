@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -28,7 +27,6 @@ func CreateAuthMiddleware() (*jwt.Middleware, error) {
 		Timeout:          time.Hour,
 		MaxRefresh:       time.Hour * 24,
 		Authenticator: func(username string, password string) error {
-			fmt.Println("Got login")
 			// Log the user in
 			err := login.Login(username, password)
 			if err != nil {

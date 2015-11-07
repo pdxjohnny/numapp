@@ -50,6 +50,10 @@ func RESTRequest(url, token string, data interface{}, result interface{}) (*http
 		}
 		request = req
 	}
+	request.Header.Set("Accept-Encoding", "application/json")
+	if token != "" {
+		request.Header.Set("Authorization", "Bearer "+token)
+	}
 
 	client := &http.Client{}
 	resp, err := client.Do(request)
