@@ -1,6 +1,7 @@
 package api
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/ant0ine/go-json-rest/rest"
@@ -12,7 +13,7 @@ import (
 // GetAccount returns the accounts for an id
 func GetAccount(w rest.ResponseWriter, r *rest.Request) {
 	id := r.PathParam("id")
-	doc, err := api.GetAccount(variables.ServiceDBURL, variables.BackendToken, id)
+	doc, err := api.GetAccount(variables.ServiceDBURL, r.Env["JWT_RAW"].(string), id)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusNotFound)
 		return
@@ -28,12 +29,16 @@ func GetAccount(w rest.ResponseWriter, r *rest.Request) {
 func PostAccount(w rest.ResponseWriter, r *rest.Request) {
 	var recvDoc map[string]interface{}
 	id := r.PathParam("id")
+	if r.Env["REMOTE_USER"].(string) != id {
+		err := errors.New("Can only save your own account")
+		rest.Error(w, err.Error(), http.StatusUnauthorized)
+	}
 	err := r.DecodeJsonPayload(&recvDoc)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	doc, err := api.SaveAccount(variables.ServiceDBURL, variables.BackendToken, id, recvDoc)
+	doc, err := api.SaveAccount(variables.ServiceDBURL, r.Env["JWT_RAW"].(string), id, recvDoc)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return

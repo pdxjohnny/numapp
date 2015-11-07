@@ -2,7 +2,6 @@ package register
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"strconv"
 
@@ -46,18 +45,28 @@ func Register(registerDoc map[string]interface{}) error {
 	}
 
 	// Take only the parts we care about and save them
-	saveDoc := map[string]interface{}{
+	saveUser := map[string]interface{}{
 		"_id":      id,
 		"email":    email,
 		"password": string(hashedPassword),
 	}
 
-	fmt.Println(saveDoc)
-	_, err = api.SaveUser(variables.ServiceDBURL, variables.BackendToken, id, saveDoc)
+	_, err = api.SaveUser(variables.ServiceDBURL, variables.BackendToken, id, saveUser)
 	if err != nil {
 		return err
 	}
-	log.Println("User registered", saveDoc)
+
+	// Take only the parts we care about and save them
+	saveAccount := map[string]interface{}{
+		"_id":   id,
+		"email": email,
+	}
+
+	doc, err = api.SaveAccount(variables.ServiceDBURL, variables.BackendToken, id, saveAccount)
+	if err != nil {
+		return err
+	}
+	log.Println("User registered", saveUser)
 	return nil
 }
 

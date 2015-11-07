@@ -69,7 +69,7 @@ func PostRegisterUser(w rest.ResponseWriter, r *rest.Request) {
 // GetUser returns the accounts for an id
 func GetUser(w rest.ResponseWriter, r *rest.Request) {
 	id := r.PathParam("id")
-	doc, err := api.GetUser(variables.ServiceUserURL, variables.BackendToken, id)
+	doc, err := api.GetUser(variables.ServiceUserURL, r.Env["JWT_RAW"].(string), id)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusNotFound)
 		return
@@ -90,7 +90,7 @@ func PostUser(w rest.ResponseWriter, r *rest.Request) {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	doc, err := api.SaveUser(variables.ServiceUserURL, variables.BackendToken, id, recvDoc)
+	doc, err := api.SaveUser(variables.ServiceUserURL, r.Env["JWT_RAW"].(string), id, recvDoc)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
