@@ -49,7 +49,7 @@
 		},
 		{
 			"ImportPath": "github.com/pdxjohnny/go-json-rest-middleware-jwt",
-			"Rev": "cb30fac2560c848fb2e10656af2ce3b1e2304309"
+			"Rev": "f3eb88668d971eda68b3b3a38eabbe8c40455cf5"
 		},
 		{
 			"ImportPath": "github.com/russross/blackfriday",

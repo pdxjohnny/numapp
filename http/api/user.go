@@ -32,7 +32,7 @@ func PostLoginUser(w rest.ResponseWriter, r *rest.Request) {
 
 // PostRefreshUser logs in a user
 func PostRefreshUser(w rest.ResponseWriter, r *rest.Request) {
-	doc, err := api.RefreshUser(variables.ServiceUserURL, variables.BackendToken)
+	doc, err := api.RefreshUser(variables.ServiceUserURL, r.Env["JWT_RAW"].(string))
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
