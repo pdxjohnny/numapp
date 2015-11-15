@@ -1,7 +1,6 @@
 package api
 
 import (
-	"errors"
 	"net/http"
 
 	"github.com/ant0ine/go-json-rest/rest"
@@ -29,10 +28,6 @@ func GetAccount(w rest.ResponseWriter, r *rest.Request) {
 func PostAccount(w rest.ResponseWriter, r *rest.Request) {
 	var recvDoc map[string]interface{}
 	id := r.PathParam("id")
-	if r.Env["REMOTE_USER"].(string) != id {
-		err := errors.New("Can only save your own account")
-		rest.Error(w, err.Error(), http.StatusUnauthorized)
-	}
 	err := r.DecodeJsonPayload(&recvDoc)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
