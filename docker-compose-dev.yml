@@ -14,7 +14,7 @@ web:
 user:
   image: pdxjohnny/numapp:dev
   command: /app/run user
-  ports:
+  expose:
     - "32345"
   links:
     - db
