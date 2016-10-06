@@ -1,26 +1,46 @@
-web:
-  image: pdxjohnny/numapp
-  command: /app/run http
-  ports:
-    - "12345:8080"
-  volumes:
-    - ./static:/app/static
-  links:
-    - user
-    - db
-user:
-  image: pdxjohnny/numapp
-  command: /app/run user
-  ports:
-    - "32345"
-  links:
-    - db
-db:
-  image: pdxjohnny/numapp
-  command: /app/run db
-  expose:
-    - "42345"
-  links:
-    - mongo
-mongo:
-  image: mongo
+version: '2'
+
+services:
+  web:
+    image: pdxjohnny/numapp
+    command: http --port 80
+    ports:
+      - "8080:80"
+    volumes:
+      - ./keys:/app/keys
+      - ./static:/app/static
+    links:
+      - user
+      - db
+    environment:
+      NUMAPP_CERT: "false"
+      SERVICE_PROTOCOL: "http"
+
+  user:
+    image: pdxjohnny/numapp
+    command: user --port 80
+    volumes:
+      - ./keys:/app/keys
+    expose:
+      - "80"
+    links:
+      - db
+    environment:
+      NUMAPP_CERT: "false"
+      SERVICE_PROTOCOL: "http"
+
+  db:
+    image: pdxjohnny/numapp
+    command: db --port 80
+    volumes:
+      - ./keys:/app/keys
+    expose:
+      - "80"
+    links:
+      - mongo
+    environment:
+      NUMAPP_CERT: "false"
+      SERVICE_PROTOCOL: "http"
+
+  mongo:
+    image: mongo

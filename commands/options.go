@@ -24,7 +24,7 @@ var ConfigOptions = map[string]interface{}{
 			"help":  "Address to bind to",
 		},
 		"port": map[string]interface{}{
-			"value": 8080,
+			"value": 12345,
 			"help":  "Port to bind to",
 		},
 		"cert": map[string]interface{}{

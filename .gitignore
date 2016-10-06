@@ -3,7 +3,8 @@ Godeps/Readme
 build/
 keys/
 tmp/
+.venv/
 
 bower_components/
 
-numapp_*
+numapp*

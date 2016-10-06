@@ -105,10 +105,10 @@ func LoadTokenVerifyKey() error {
 // CreateBackendToken uses the signing key to create a token
 func CreateBackendToken() error {
 	var err error
-	token := jwt.New(jwt.GetSigningMethod(SigningAlgorithm))
-
-	token.Claims["id"] = "backend"
-	token.Claims["backend"] = true
+	token := jwt.NewWithClaims(jwt.GetSigningMethod(SigningAlgorithm), jwt.MapClaims{
+		"id":      "backend",
+		"backend": true,
+	})
 
 	if TokenSignKey == nil {
 		return errors.New("TokenSignKey is nil")
